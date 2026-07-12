@@ -1,31 +1,38 @@
 # AI Industrial Operations Advisor Agent
 
-## Overview
-
-AI Industrial Operations Advisor is an Agentic AI system designed to assist industrial engineers by analyzing machine information, providing maintenance guidance, and supporting operational decisions.
-
 ## Problem Statement
 
-Industrial engineers need quick access to machine knowledge and operational insights. This project aims to build an AI assistant that can understand industrial data, answer technical queries, and support maintenance decisions.
+Industrial machines generate huge amounts of operational data.
+Maintenance teams often struggle to analyze this data quickly and
+predict possible failures before they happen.
 
-## Objectives
+## Objective
 
-- Build an AI-powered industrial assistant
-- Integrate Large Language Models
-- Implement Retrieval Augmented Generation (RAG)
-- Create a foundation for predictive maintenance
+To build an AI-powered industrial operations assistant that can analyze
+machine data, identify abnormal conditions, predict possible failures,
+and provide decision-based recommendations.
 
-## Technology Stack
+## Users
+
+- Industrial maintenance engineers
+- Factory operators
+- Production managers
+
+## Key Features (Planned)
+
+- Industrial data analysis
+- Machine health monitoring
+- Failure prediction
+- AI-based recommendations
+- Natural language interaction with industrial data
+
+## Planned Technology
 
 - Python
 - LangChain
-- Gemini API
+- LLM API (Gemini/Groq/OpenAI)
 - Streamlit
-- RAG Architecture
-
-## Current Progress
-
-Week 1:
-- Repository setup completed
+- SQLite
+- Machine sensor datasets (CSV)
 - Development environment prepared
 - AI agent foundation in progress
