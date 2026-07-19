@@ -1,35 +1,81 @@
 from dotenv import load_dotenv
+
 import os
+
+print("USING THIS AGENT FILE:", __file__)
+
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-# Load variables from .env
+from tools.critical_tool import get_critical_machines
+
+from tools.health_tool import (
+    get_warning_machines,
+    get_healthy_machines,
+    get_health_summary
+)
+
+from langchain.agents import create_agent
+
+
 load_dotenv()
 
-# Create Gemini model
+
 llm = ChatGoogleGenerativeAI(
-    model="models/gemini-3.5-flash",
-    google_api_key=os.getenv("Geminie_Api_key")
+    model="gemini-3.1-flash-lite",
+    google_api_key=os.getenv("Geminie_Api_key"),
+    temperature=0,
+
+
 )
+
+print("MODEL LOADED: gemini-3.1-flash-lite")
+
+
+tools = [
+    get_critical_machines,
+    get_warning_machines,
+    get_healthy_machines,
+    get_health_summary
+]
 
 
 system_prompt = """
 You are an Industrial Operations Advisor AI.
 
-Your job is to help factory managers monitor machines,
-predict failures, and improve maintenance decisions.
+You assist factory managers with machine monitoring,
+predictive maintenance and operational decisions.
 
-give the answers in point wise with numbering at start
+Rules:
 
-Give concise answers in 3-4 sentences.
-make easy to understand
-Use industrial terminology.
+- Use simple human understandable language.
+- Avoid unnecessary technical jargon.
+- Format answers like an industrial dashboard.
+- Give short summaries.
+- Mention risks and recommendations.
+
+For health reports:
+
+## Machine Health Summary
+
+Healthy:
+Explain normal machines.
+
+Warning:
+Explain machines requiring monitoring.
+
+Critical:
+Explain machines requiring immediate action.
+
+Recommendation:
+Give maintenance advice.
+
+Keep responses concise and professional.
 """
 
-# Send a test prompt
-response = llm.invoke(
-    system_prompt+"\n explain the predictive maintanence.!"
-)
 
-# Print the AI response
-print(response.content[0]["text"])
+agent = create_agent(
+    model=llm,
+    tools=tools,
+    system_prompt=system_prompt
+)
