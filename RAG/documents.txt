@@ -1,0 +1,78 @@
+INDUSTRIAL MACHINE MAINTENANCE KNOWLEDGE
+
+CNC MACHINE MAINTENANCE
+
+High vibration in a CNC machine can indicate tool imbalance, loose components, worn bearings, improper alignment, or excessive cutting speed.
+
+---DOCUMENT_SEPARATOR---
+
+If a CNC machine shows abnormal vibration, the maintenance team should inspect the cutting tools, tool holders, machine alignment, bearings, and moving components.
+
+Continuous operation with high vibration can accelerate component wear and may lead to unexpected machine failure.
+
+---DOCUMENT_SEPARATOR---
+
+HYDRAULIC PRESS MAINTENANCE
+
+High temperature in a hydraulic press may indicate low hydraulic fluid, excessive friction, pump problems, blocked filters, or operation under excessive load.
+
+---DOCUMENT_SEPARATOR---
+
+The maintenance team should check the hydraulic oil level, hydraulic pump, filters, cooling system, and possible fluid leaks.
+
+If abnormal temperature continues, the machine should be inspected and preventive maintenance should be scheduled.
+
+GENERATOR MAINTENANCE
+
+---DOCUMENT_SEPARATOR---
+
+GENERATOR MAINTENANCE
+
+High temperature in a generator may be caused by excessive load, insufficient cooling, low lubricant levels, blocked air filters, or engine problems.
+
+High vibration in a generator may indicate imbalance, misalignment, loose components, or bearing damage.
+
+---DOCUMENT_SEPARATOR---
+
+Maintenance personnel should inspect the cooling system, lubrication system, bearings, mounting, and electrical connections.
+
+GENERAL MACHINE HEALTH CONDITIONS
+
+---DOCUMENT_SEPARATOR---
+
+GENERAL MACHINE HEALTH CONDITIONS
+
+A CRITICAL machine condition indicates a high risk of failure or unsafe operation. Critical machines require immediate inspection by qualified maintenance personnel.
+
+---DOCUMENT_SEPARATOR---
+
+A WARNING machine condition indicates abnormal behavior that requires monitoring and proactive maintenance before the condition becomes critical.
+
+A HEALTHY machine is operating within normal parameters. Healthy machines should continue with their scheduled preventive maintenance.
+
+---DOCUMENT_SEPARATOR---
+
+MAINTENANCE PRIORITY
+
+Critical machines have the highest maintenance priority and should be inspected immediately.
+
+Warning machines should be monitored more frequently and should receive planned preventive maintenance.
+
+---DOCUMENT_SEPARATOR---
+
+Healthy machines should continue normal operation and regular preventive maintenance.
+
+SAFETY RECOMMENDATION
+
+---DOCUMENT_SEPARATOR---
+
+SAFETY RECOMMENDATION
+
+If a machine shows dangerous temperature, vibration, pressure, or other abnormal operating conditions, operators should follow factory safety procedures and immediately inform qualified maintenance personnel.
+
+---DOCUMENT_SEPARATOR---
+
+The AI system provides maintenance recommendations to assist qualified personnel. It should not directly perform physical maintenance actions or replace professional safety procedures.
+
+---DOCUMENT_SEPARATOR---
+

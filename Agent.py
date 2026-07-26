@@ -4,6 +4,7 @@ import os
 
 print("USING THIS AGENT FILE:", __file__)
 
+from RAG.rag_retriever import retrieve_knowledge
 
 from langchain_google_genai import ChatGoogleGenerativeAI
 
@@ -36,7 +37,8 @@ tools = [
     get_critical_machines,
     get_warning_machines,
     get_healthy_machines,
-    get_health_summary
+    get_health_summary,
+    retrieve_knowledge
 ]
 
 
@@ -53,6 +55,10 @@ Rules:
 - Format answers like an industrial dashboard.
 - Give short summaries.
 - Mention risks and recommendations.
+
+- For questions about industrial machines, maintenance problems,
+  abnormal conditions, vibration, temperature, pressure, failure causes,
+  or maintenance recommendations, use the retrieve_knowledge tool first.
 
 For health reports:
 
