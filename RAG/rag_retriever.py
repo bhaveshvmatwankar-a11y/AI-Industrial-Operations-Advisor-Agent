@@ -60,6 +60,8 @@ def retrieve_knowledge(
     - Maintenance recommendations
     """
 
+    print("\n===== RAG TOOL USED =====")
+
     question_vector = embeddings_model.embed_query(
         question
     )

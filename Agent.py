@@ -10,6 +10,8 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 from tools.critical_tool import get_critical_machines
 
+from tools.machine_risk_tool import check_machine_risk
+
 from tools.health_tool import (
     get_warning_machines,
     get_healthy_machines,
@@ -38,7 +40,8 @@ tools = [
     get_warning_machines,
     get_healthy_machines,
     get_health_summary,
-    retrieve_knowledge
+    retrieve_knowledge,
+    check_machine_risk
 ]
 
 
