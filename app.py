@@ -3,9 +3,9 @@ import streamlit as st
 from Agent import agent
 
 
-# --------------------------------------------------
+# ==========================================================
 # PAGE CONFIGURATION
-# --------------------------------------------------
+# ==========================================================
 
 st.set_page_config(
     page_title="Industrial Operations Advisor",
@@ -15,224 +15,250 @@ st.set_page_config(
 )
 
 
-# --------------------------------------------------
-# CUSTOM CSS
-# --------------------------------------------------
+# ==========================================================
+# CUSTOM STYLING
+# ==========================================================
 
-st.markdown(
+st.html(
     """
-    <div class="app-header">
+    <style>
 
-        <div class="app-title">
-            🏭 Industrial Operations Advisor AI
-        </div>
+    /* --------------------------------------------------
+       GLOBAL
+    -------------------------------------------------- */
 
-        <div class="app-subtitle">
-            AI-powered industrial monitoring, maintenance intelligence,
-            and operational decision support.
-        </div>
+    .stApp {
+        background: #0b0d10;
+    }
 
-    </div>
-    """,
-    unsafe_allow_html=True
+    [data-testid="stAppViewContainer"] {
+        background: #0b0d10;
+    }
+
+    /* --------------------------------------------------
+       SIDEBAR
+    -------------------------------------------------- */
+
+    [data-testid="stSidebar"] {
+        background: #111318;
+        border-right: 1px solid #24272d;
+    }
+
+    [data-testid="stSidebar"] > div:first-child {
+        padding-top: 1rem;
+    }
+
+    .brand {
+        font-size: 18px;
+        font-weight: 600;
+        color: #f1f1f1;
+        padding: 8px 4px 18px 4px;
+    }
+
+    .brand-subtitle {
+        font-size: 12px;
+        color: #8b9098;
+        margin-top: 4px;
+    }
+
+    .sidebar-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #777d87;
+        letter-spacing: 0.08em;
+        margin-top: 28px;
+        margin-bottom: 10px;
+    }
+
+    .capability {
+        color: #b8bdc6;
+        font-size: 13px;
+        padding: 7px 4px;
+    }
+
+    /* --------------------------------------------------
+       MAIN CONTENT
+    -------------------------------------------------- */
+
+    .main-title {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 600;
+        color: #f3f4f6;
+        margin-top: 80px;
+        margin-bottom: 8px;
+    }
+
+    .main-subtitle {
+        text-align: center;
+        color: #8d929b;
+        font-size: 14px;
+        margin-bottom: 45px;
+    }
+
+    .welcome-icon {
+        text-align: center;
+        font-size: 42px;
+        margin-bottom: 15px;
+    }
+
+    /* --------------------------------------------------
+       CHAT
+    -------------------------------------------------- */
+
+    [data-testid="stChatMessage"] {
+        background: transparent;
+        border: none;
+    }
+
+    [data-testid="stChatMessageContent"] {
+        color: #e6e8eb;
+        font-size: 15px;
+        line-height: 1.65;
+    }
+
+    /* --------------------------------------------------
+       CHAT INPUT
+    -------------------------------------------------- */
+
+    [data-testid="stChatInput"] {
+        background: #17191e;
+        border: 1px solid #30333a;
+        border-radius: 14px;
+    }
+
+    [data-testid="stChatInput"] textarea {
+        color: #f1f1f1;
+    }
+
+    /* --------------------------------------------------
+       BUTTON
+    -------------------------------------------------- */
+
+    .stButton > button {
+        border-radius: 8px;
+        border: 1px solid #30333a;
+        background: #17191e;
+        color: #e5e7eb;
+    }
+
+    .stButton > button:hover {
+        border-color: #555a63;
+        background: #1d2026;
+    }
+
+    /* --------------------------------------------------
+       FOOTER
+    -------------------------------------------------- */
+
+    .sidebar-footer {
+        position: fixed;
+        bottom: 18px;
+        color: #686e78;
+        font-size: 11px;
+        line-height: 1.5;
+    }
+
+    </style>
+    """
 )
 
 
-# --------------------------------------------------
+# ==========================================================
 # SESSION STATE
-# --------------------------------------------------
+# ==========================================================
 
 if "messages" not in st.session_state:
-
     st.session_state.messages = []
 
 
-# --------------------------------------------------
+# ==========================================================
 # SIDEBAR
-# --------------------------------------------------
+# ==========================================================
 
 with st.sidebar:
 
-    st.markdown(
+    st.html(
         """
-        <div class="sidebar-title">
+        <div class="brand">
             🏭 Industrial Operations Advisor
+            <div class="brand-subtitle">
+                AI-powered factory intelligence
+            </div>
         </div>
-        """,
-        unsafe_allow_html=True
+        """
     )
-
 
     if st.button(
-        "➕ New Chat",
+        "＋  New Chat",
         use_container_width=True
     ):
-
         st.session_state.messages = []
-
         st.rerun()
 
-
-    st.markdown(
-        '<div class="sidebar-section">SYSTEM STATUS</div>',
-        unsafe_allow_html=True
-    )
-
-    st.success("● AI Agent Online")
-
-
-    st.markdown(
-        '<div class="sidebar-section">CAPABILITIES</div>',
-        unsafe_allow_html=True
-    )
-
-
-    st.markdown(
+    st.html(
         """
-        🔧 Machine Monitoring
+        <div class="sidebar-label">
+            CAPABILITIES
+        </div>
 
-        🧠 Predictive Maintenance
+        <div class="capability">🔧 Machine Monitoring</div>
+        <div class="capability">🧠 Predictive Maintenance</div>
+        <div class="capability">📚 Industrial Knowledge</div>
+        <div class="capability">📊 Operational Analysis</div>
+        <div class="capability">⚠️ Risk Identification</div>
 
-        📚 Industrial Knowledge Search
+        <div class="sidebar-label">
+            SYSTEM
+        </div>
 
-        📊 Operational Analysis
+        <div class="capability">
+            AI Agent Online
+        </div>
 
-        ⚠️ Risk Identification
+        <div class="capability">
+            Gemini 3.1 Flash Lite
+        </div>
+
+        <div class="capability">
+            FAISS + RAG
+        </div>
+
+        <div class="sidebar-footer">
+            AI Industrial Operations Advisor<br>
+            Decision support for industrial operations
+        </div>
         """
     )
 
 
-    st.markdown(
-        '<div class="sidebar-section">KNOWLEDGE SYSTEM</div>',
-        unsafe_allow_html=True
-    )
-
-
-    st.info(
-        "RAG knowledge retrieval is enabled."
-    )
-
-
-    st.markdown(
-        """
-        <div class="footer">
-        AI Industrial Operations Advisor<br>
-        Decision support system for industrial operations
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-
-# --------------------------------------------------
-# MAIN HEADER
-# --------------------------------------------------
-
-st.markdown(
-    """
-    <div class="app-header">
-
-        <div class="app-title">
-            🏭 Industrial Operations Advisor AI
-        </div>
-
-        <div class="app-subtitle">
-            AI-powered industrial monitoring, maintenance intelligence,
-            and operational decision support.
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-
-# --------------------------------------------------
-# SYSTEM STATUS CARDS
-# --------------------------------------------------
-
-st.markdown(
-    """
-    <div class="status-container">
-
-        <div class="status-card">
-
-            <div class="status-title">
-                SYSTEM
-            </div>
-
-            <div class="status-value">
-                🟢 Online
-            </div>
-
-        </div>
-
-        <div class="status-card">
-
-            <div class="status-title">
-                AI MODEL
-            </div>
-
-            <div class="status-value">
-                Gemini 3.1 Flash Lite
-            </div>
-
-        </div>
-
-        <div class="status-card">
-
-            <div class="status-title">
-                KNOWLEDGE
-            </div>
-
-            <div class="status-value">
-                FAISS + RAG
-            </div>
-
-        </div>
-
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-
-# --------------------------------------------------
+# ==========================================================
 # WELCOME SCREEN
-# --------------------------------------------------
+# ==========================================================
 
 if len(st.session_state.messages) == 0:
 
-    st.markdown(
+    st.html(
         """
-        <div style="
-            text-align: center;
-            padding: 3rem 1rem;
-            color: #9ca3af;
-        ">
-
-            <div style="font-size: 3rem;">
-                🏭
-            </div>
-
-            <h2 style="color: white;">
-                How can I assist with your industrial operations?
-            </h2>
-
-            <p>
-                Ask about machine health, maintenance causes,
-                operational risks, or industrial knowledge.
-            </p>
-
+        <div class="welcome-icon">
+            🏭
         </div>
-        """,
-        unsafe_allow_html=True
+
+        <div class="main-title">
+            How can I help with your factory?
+        </div>
+
+        <div class="main-subtitle">
+            Ask about machines, maintenance, risks, or
+            operational insights.
+        </div>
+        """
     )
 
 
-# --------------------------------------------------
-# DISPLAY CHAT HISTORY
-# --------------------------------------------------
+# ==========================================================
+# CHAT HISTORY
+# ==========================================================
 
 for message in st.session_state.messages:
 
@@ -246,9 +272,9 @@ for message in st.session_state.messages:
         )
 
 
-# --------------------------------------------------
+# ==========================================================
 # CHAT INPUT
-# --------------------------------------------------
+# ==========================================================
 
 user_input = st.chat_input(
     "Ask about your factory machines..."
@@ -257,7 +283,10 @@ user_input = st.chat_input(
 
 if user_input:
 
-    # Store user message
+    # ------------------------------------------------------
+    # STORE USER MESSAGE
+    # ------------------------------------------------------
+
     st.session_state.messages.append(
         {
             "role": "user",
@@ -266,7 +295,10 @@ if user_input:
     )
 
 
-    # Display user message
+    # ------------------------------------------------------
+    # DISPLAY USER MESSAGE
+    # ------------------------------------------------------
+
     with st.chat_message(
         "user",
         avatar="👤"
@@ -277,14 +309,17 @@ if user_input:
         )
 
 
-    # Generate AI response
+    # ------------------------------------------------------
+    # GENERATE AI RESPONSE
+    # ------------------------------------------------------
+
     with st.chat_message(
         "assistant",
         avatar="🤖"
     ):
 
         with st.spinner(
-            "Analyzing industrial knowledge..."
+            "Analyzing factory data..."
         ):
 
             response = agent.invoke(
@@ -298,6 +333,10 @@ if user_input:
                 }
             )
 
+
+            # --------------------------------------------------
+            # EXTRACT FINAL MESSAGE
+            # --------------------------------------------------
 
             message = response[
                 "messages"
@@ -318,12 +357,32 @@ if user_input:
                 answer = message
 
 
+            # --------------------------------------------------
+            # REMOVE STREAMLIT SVG ARTIFACTS
+            # --------------------------------------------------
+
+
+
+
+
+            # --------------------------------------------------
+            # DISPLAY RESPONSE
+            # --------------------------------------------------
+
+            print("\n--- RAW AI RESPONSE ---")
+            print(answer)
+            print("--- END RAW RESPONSE ---\n")
+
             st.markdown(
-                answer
+                answer,
+                anchors=False
             )
 
 
-    # Store AI response
+    # ------------------------------------------------------
+    # STORE AI RESPONSE
+    # ------------------------------------------------------
+
     st.session_state.messages.append(
         {
             "role": "assistant",
