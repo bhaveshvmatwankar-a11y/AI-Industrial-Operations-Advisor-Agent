@@ -235,5 +235,4 @@ __pycache__/
 __pycache__/
 
 # Environment variables
-.env
-data/maintenance.db
+
