@@ -1,8 +1,9 @@
 import pandas as pd
+
 from langchain.tools import tool
 
+from utils.data_manager import get_machine_data
 
-CSV_PATH = "data/sample_machine_data.csv"
 
 
 @tool
@@ -12,7 +13,8 @@ def analyze_maintenance_issues():
     operational issues requiring maintenance attention.
     """
 
-    df = pd.read_csv(CSV_PATH)
+    df = get_machine_data()
+
 
     # Define operational conditions
 

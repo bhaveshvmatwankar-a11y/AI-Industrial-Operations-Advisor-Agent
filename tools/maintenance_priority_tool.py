@@ -1,8 +1,7 @@
 import pandas as pd
 from langchain.tools import tool
 
-
-CSV_PATH = "data/sample_machine_data.csv"
+from utils.data_manager import get_machine_data
 
 
 @tool
@@ -13,10 +12,68 @@ def get_maintenance_priorities() -> str:
     and time since last maintenance.
     """
 
-    df = pd.read_csv(CSV_PATH)
+    # ------------------------------------------------------
+    # LOAD ACTIVE FACTORY DATA
+    # ------------------------------------------------------
+
+    df = get_machine_data()
+
+    if df is None or df.empty:
+        return "No factory machine data is currently loaded."
+
+    df = df.copy()
+
+
+    # ------------------------------------------------------
+    # CHECK REQUIRED COLUMNS
+    # ------------------------------------------------------
+
+    required_columns = [
+        "Machine_ID",
+        "Machine_Name",
+        "Location",
+        "Health_Status"
+    ]
+
+    missing_columns = [
+        column
+        for column in required_columns
+        if column not in df.columns
+    ]
+
+    if missing_columns:
+
+        return (
+            "Maintenance priority analysis cannot be performed "
+            "because the following required columns are missing: "
+            + ", ".join(missing_columns)
+        )
+
+
+    # ------------------------------------------------------
+    # OPTIONAL COLUMNS
+    # ------------------------------------------------------
+
+    if "Temperature" not in df.columns:
+        df["Temperature"] = None
+
+    if "Vibration" not in df.columns:
+        df["Vibration"] = None
+
+    if "Runtime_Hours" not in df.columns:
+        df["Runtime_Hours"] = None
+
+    if "Last_Maintenance" not in df.columns:
+        df["Last_Maintenance"] = None
+
+
+    # ------------------------------------------------------
+    # MAINTENANCE DATE
+    # ------------------------------------------------------
 
     df["Last_Maintenance"] = pd.to_datetime(
-        df["Last_Maintenance"]
+        df["Last_Maintenance"],
+        errors="coerce"
     )
 
     today = pd.Timestamp.today()
@@ -25,91 +82,223 @@ def get_maintenance_priorities() -> str:
         today - df["Last_Maintenance"]
     ).dt.days
 
+
+    # ------------------------------------------------------
+    # PRIORITY CALCULATION
+    # ------------------------------------------------------
+
     priorities = []
+
 
     for _, row in df.iterrows():
 
         score = 0
         reasons = []
 
-        # Health status
-        if row["Health_Status"] == "Critical":
+
+        # --------------------------------------------------
+        # HEALTH STATUS
+        # --------------------------------------------------
+
+        health_status = str(
+            row["Health_Status"]
+        ).strip().lower()
+
+
+        if health_status == "critical":
+
             score += 5
-            reasons.append("Critical health status")
 
-        elif row["Health_Status"] == "Warning":
+            reasons.append(
+                "Critical health status"
+            )
+
+        elif health_status == "warning":
+
             score += 3
-            reasons.append("Warning health status")
 
-        # Temperature
-        if row["Temperature"] > 86:
-            score += 3
-            reasons.append("High temperature")
+            reasons.append(
+                "Warning health status"
+            )
 
-        elif row["Temperature"] > 84:
-            score += 1
-            reasons.append("Elevated temperature")
 
-        # Vibration
-        if row["Vibration"] > 1.6:
-            score += 3
-            reasons.append("High vibration")
+        # --------------------------------------------------
+        # TEMPERATURE
+        # --------------------------------------------------
 
-        elif row["Vibration"] > 1.4:
-            score += 1
-            reasons.append("Elevated vibration")
+        temperature = row["Temperature"]
 
-        # Runtime
-        if row["Runtime_Hours"] > 1800:
-            score += 2
-            reasons.append("High runtime")
+        if pd.notna(temperature):
 
-        elif row["Runtime_Hours"] > 1500:
-            score += 1
-            reasons.append("High operating hours")
+            if temperature > 86:
 
-        # Maintenance age
-        if row["Days_Since_Maintenance"] > 240:
-            score += 2
-            reasons.append("Maintenance overdue")
+                score += 3
 
-        elif row["Days_Since_Maintenance"] > 180:
-            score += 1
-            reasons.append("Maintenance aging")
+                reasons.append(
+                    "High temperature"
+                )
 
-        # Priority
+            elif temperature > 84:
+
+                score += 1
+
+                reasons.append(
+                    "Elevated temperature"
+                )
+
+
+        # --------------------------------------------------
+        # VIBRATION
+        # --------------------------------------------------
+
+        vibration = row["Vibration"]
+
+        if pd.notna(vibration):
+
+            if vibration > 1.6:
+
+                score += 3
+
+                reasons.append(
+                    "High vibration"
+                )
+
+            elif vibration > 1.4:
+
+                score += 1
+
+                reasons.append(
+                    "Elevated vibration"
+                )
+
+
+        # --------------------------------------------------
+        # RUNTIME
+        # --------------------------------------------------
+
+        runtime = row["Runtime_Hours"]
+
+        if pd.notna(runtime):
+
+            if runtime > 1800:
+
+                score += 2
+
+                reasons.append(
+                    "High runtime"
+                )
+
+            elif runtime > 1500:
+
+                score += 1
+
+                reasons.append(
+                    "High operating hours"
+                )
+
+
+        # --------------------------------------------------
+        # MAINTENANCE AGE
+        # --------------------------------------------------
+
+        maintenance_days = (
+            row["Days_Since_Maintenance"]
+        )
+
+        if pd.notna(maintenance_days):
+
+            if maintenance_days > 240:
+
+                score += 2
+
+                reasons.append(
+                    "Maintenance overdue"
+                )
+
+            elif maintenance_days > 180:
+
+                score += 1
+
+                reasons.append(
+                    "Maintenance aging"
+                )
+
+
+        # --------------------------------------------------
+        # PRIORITY LEVEL
+        # --------------------------------------------------
+
         if score >= 7:
+
             priority = "IMMEDIATE"
 
         elif score >= 4:
+
             priority = "HIGH"
 
         elif score >= 2:
+
             priority = "MEDIUM"
 
         else:
+
             priority = "ROUTINE"
+
 
         priorities.append(
             {
                 "Machine_ID": row["Machine_ID"],
+
                 "Machine_Name": row["Machine_Name"],
+
                 "Location": row["Location"],
+
                 "Health_Status": row["Health_Status"],
-                "Temperature": round(row["Temperature"], 2),
-                "Vibration": round(row["Vibration"], 2),
-                "Runtime_Hours": int(row["Runtime_Hours"]),
-                "Days_Since_Maintenance": int(
-                    row["Days_Since_Maintenance"]
+
+                "Temperature": (
+                    round(float(temperature), 2)
+                    if pd.notna(temperature)
+                    else "N/A"
                 ),
+
+                "Vibration": (
+                    round(float(vibration), 2)
+                    if pd.notna(vibration)
+                    else "N/A"
+                ),
+
+                "Runtime_Hours": (
+                    int(runtime)
+                    if pd.notna(runtime)
+                    else "N/A"
+                ),
+
+                "Days_Since_Maintenance": (
+                    int(maintenance_days)
+                    if pd.notna(maintenance_days)
+                    else "N/A"
+                ),
+
                 "Maintenance_Priority": priority,
+
                 "Reasons": reasons
             }
         )
 
-    result = pd.DataFrame(priorities)
 
-    # Sort most urgent machines first
+    # ------------------------------------------------------
+    # CREATE RESULT
+    # ------------------------------------------------------
+
+    result = pd.DataFrame(
+        priorities
+    )
+
+
+    # ------------------------------------------------------
+    # SORT PRIORITY
+    # ------------------------------------------------------
+
     priority_order = {
         "IMMEDIATE": 0,
         "HIGH": 1,
@@ -125,8 +314,13 @@ def get_maintenance_priorities() -> str:
         "Priority_Order"
     )
 
-    # Return only the most important machines
+
+    # ------------------------------------------------------
+    # TOP PRIORITY MACHINES
+    # ------------------------------------------------------
+
     top_machines = result.head(15)
+
 
     return top_machines[
         [
@@ -141,4 +335,6 @@ def get_maintenance_priorities() -> str:
             "Maintenance_Priority",
             "Reasons"
         ]
-    ].to_string(index=False)
+    ].to_string(
+        index=False
+    )

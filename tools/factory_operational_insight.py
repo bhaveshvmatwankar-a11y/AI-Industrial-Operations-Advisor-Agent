@@ -1,24 +1,34 @@
-import pandas as pd
-import sqlite3
 from langchain.tools import tool
 
-
-CSV_PATH = "data/sample_machine_data.csv"
-DB_PATH = "data/maintenance.db"
+from utils.data_manager import get_machine_data
+from tools.company_context_tool import get_company_name
 
 
 @tool
 def generate_factory_operational_insight():
     """
     Generate a factory-level operational insight report
-    using machine conditions and maintenance data.
+    using the currently loaded machine data.
     """
 
-    # -------------------------------
-    # MACHINE DATA ANALYSIS
-    # -------------------------------
+    # ======================================================
+    # COMPANY NAME
+    # ======================================================
 
-    df = pd.read_csv(CSV_PATH)
+    company_name = get_company_name()
+
+    # ======================================================
+    # MACHINE DATA
+    # ======================================================
+
+    df = get_machine_data()
+
+    if df is None or df.empty:
+        return "No factory machine data is currently loaded."
+
+    # ======================================================
+    # MACHINE ANALYSIS
+    # ======================================================
 
     high_vibration = len(
         df[df["Vibration"] > 1.4]
@@ -32,98 +42,27 @@ def generate_factory_operational_insight():
         df[df["Runtime_Hours"] > 1500]
     )
 
+    issue_counts = {
+        "High Vibration": high_vibration,
+        "High Temperature": high_temperature,
+        "High Runtime": high_runtime
+    }
+
     most_common_issue = max(
-        {
-            "High Vibration": high_vibration,
-            "High Temperature": high_temperature,
-            "High Runtime": high_runtime
-        },
-        key={
-            "High Vibration": high_vibration,
-            "High Temperature": high_temperature,
-            "High Runtime": high_runtime
-        }.get
+        issue_counts,
+        key=issue_counts.get
     )
 
-    # -------------------------------
-    # MAINTENANCE DATA
-    # -------------------------------
-
-    conn = sqlite3.connect(DB_PATH)
-
-    maintenance_df = pd.read_sql_query(
-        "SELECT * FROM maintenance",
-        conn
-    )
-
-    conn.close()
-
-    # Location workload
-    location_counts = (
-        maintenance_df["location"]
-        .value_counts()
-    )
-
-    highest_location = location_counts.index[0]
-    highest_location_tasks = location_counts.iloc[0]
-
-    # Critical machines within schedule
-    scheduled_ids = maintenance_df[
-        "machine_id"
-    ].unique()
-
-    scheduled_df = df[
-        df["Machine_ID"].isin(scheduled_ids)
-    ]
-
-    critical_scheduled = scheduled_df[
-        scheduled_df["Health_Status"] == "Critical"
-    ]
-
-    critical_ids = critical_scheduled[
-        "Machine_ID"
-    ].tolist()
-
-    critical_maintenance = maintenance_df[
-        maintenance_df["machine_id"].isin(
-            critical_ids
-        )
-    ]
-
-    critical_pending = len(
-        critical_maintenance[
-            critical_maintenance[
-                "maintenance_status"
-            ] == "Pending"
-        ]
-    )
-
-    critical_in_progress = len(
-        critical_maintenance[
-            critical_maintenance[
-                "maintenance_status"
-            ] == "In Progress"
-        ]
-    )
-
-    critical_completed = len(
-        critical_maintenance[
-            critical_maintenance[
-                "maintenance_status"
-            ] == "Completed"
-        ]
-    )
-
-    total_critical = len(critical_scheduled)
-
-    # -------------------------------
+    # ======================================================
     # REPORT
-    # -------------------------------
+    # ======================================================
 
     report = f"""
 FACTORY OPERATIONAL INSIGHT REPORT
 
-Machine Analysis:
+Company: {company_name}
+
+Machine Health Overview:
 
 Total Machines: {len(df)}
 
@@ -134,83 +73,21 @@ High Runtime: {high_runtime}
 Most Common Operational Issue:
 {most_common_issue}
 
-Maintenance Analysis:
+Key Findings:
 
-Total Maintenance Tasks:
-{len(maintenance_df)}
+- {most_common_issue} is the most frequent
+  operational issue in the current machine dataset.
 
-Highest Maintenance Workload:
-{highest_location} ({highest_location_tasks} tasks)
+Recommendations:
 
-Critical Machines in Maintenance Schedule:
-{total_critical}
+1. Prioritize investigation of
+   {most_common_issue.lower()} conditions.
 
-Critical Maintenance Status:
+2. Continue monitoring machines showing
+   abnormal operating parameters.
 
-Completed: {critical_completed}
-In Progress: {critical_in_progress}
-Pending: {critical_pending}
-
-Operational Insights:
+3. Ensure maintenance records are kept
+   up-to-date for accurate maintenance analysis.
 """
-
-    # -------------------------------
-    # INSIGHTS
-    # -------------------------------
-
-    report += (
-        f"\n- {most_common_issue} is the most frequent "
-        f"operational issue in the current machine dataset."
-    )
-
-    report += (
-        f"\n- {highest_location} has the highest "
-        f"maintenance workload with "
-        f"{highest_location_tasks} tasks."
-    )
-
-    if critical_pending > 0:
-
-        report += (
-            f"\n- {critical_pending} critical scheduled "
-            f"machine(s) currently have pending maintenance."
-        )
-
-    else:
-
-        report += (
-            "\n- No critical scheduled machines currently "
-            "have pending maintenance."
-        )
-
-    # -------------------------------
-    # RECOMMENDATIONS
-    # -------------------------------
-
-    report += "\n\nRecommendations:\n"
-
-    report += (
-        f"1. Prioritize investigation of "
-        f"{most_common_issue.lower()} conditions."
-    )
-
-    report += (
-        f"\n2. Review maintenance workload at "
-        f"{highest_location}."
-    )
-
-    if critical_pending > 0:
-
-        report += (
-            "\n3. Prioritize pending maintenance for "
-            "critical machines immediately."
-        )
-
-    else:
-
-        report += (
-            "\n3. Continue monitoring critical machines "
-            "according to the maintenance schedule."
-        )
 
     return report

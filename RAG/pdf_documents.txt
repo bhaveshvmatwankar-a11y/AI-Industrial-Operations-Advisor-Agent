@@ -1,0 +1,303 @@
+Vibration Analysis of Rotating Ground Support Machinery, Page 1 of 4
+Technique AT-8
+Page AT-47
+Technique
+The noise or vibration created by mechanical equipment can be used to
+determine the actual condition of the equipment.  Vibration analysis can
+
+---DOCUMENT_SEPARATOR---
+
+be used as a nondestructive method for detecting incipient problems in
+rotating machinery such as imbalance, misalignment, and damaged or
+worn components and thereby prevent catastrophic failures from
+occurring.  Vibration analysis also can be used for determining what
+
+---DOCUMENT_SEPARATOR---
+
+maintenance actions are necessary for a piece of rotating machinery and
+the frequency of those actions.
+Vibration Analysis of Rotating Ground
+Support Machinery
+Vibration Analysis Allows Unnecessary Maintenance Cost to
+be Avoided
+Benefit
+
+---DOCUMENT_SEPARATOR---
+
+be Avoided
+Benefit
+Vibration analysis allows the maximum interval between repairs to be
+realized through monitoring the actual mechanical condition of a piece
+of rotating machinery.  Equipment down time is not required for
+monitoring activities to occur.  The monitoring, in turn, directly
+
+---DOCUMENT_SEPARATOR---
+
+minimizes the number and cost of unscheduled machine outages created
+by component failures.  Hence, optimum equipment availability may be
+obtained.
+Key Words Predictive Maintenance, Condition-driven Maintenance, Rotating
+Machinery
+Application
+Experience
+
+---DOCUMENT_SEPARATOR---
+
+Machinery
+Application
+Experience
+C Cooling Fans for 2000 KW Generators on the Crawler/Transporter.
+C Environmental Control System at the Orbiter Processing Facility and
+the launch pads of Launch Complex 39.
+C Liquid Oxygen Pumps at the launch pads of Launch Complex 39.
+
+---DOCUMENT_SEPARATOR---
+
+C Orbiter Dock Seal Blowers at the Payload Changeout Room on the
+launch pads of Launch Complex 39.
+C Payload Bay Area Access Bridge/Bucket at the Orbiter Processing
+Facility.
+Technical
+Rationale
+Predictive maintenance is a condition driven preventive maintenance
+
+---DOCUMENT_SEPARATOR---
+
+program.  Instead of relying on industrial average-life statistics to
+schedule maintenance activities, predictive maintenance uses direct
+monitoring of the mechanical condition, system efficiency, and other
+indicators to determine the most efficient time to service a piece of
+
+---DOCUMENT_SEPARATOR---
+
+machinery.  Since mechanical systems or machines account for the
+majority of equipment, vibration monitoring is generally the key
+component of most predictive maintenance programs because it can
+provide the greatest benefits.  Also, equipment down time is not
+
+---DOCUMENT_SEPARATOR---
+
+required for vibration analysis to occur.
+Contact Center Kennedy Space Center (KSC)
+
+---DOCUMENT_SEPARATOR---
+
+Vibration Analysis of Rotating Ground Support Machinery, Page 2 of 4
+Technique AT-8
+Page AT-48
+Vibration Analysis of Rotating Ground
+Support Machinery
+Technique AT-8 software have simplified data acquisition,
+Vibration Analysis is predicated on two basic the need to have professional vibration
+
+---DOCUMENT_SEPARATOR---
+
+facts: consultants available to interpret the data. 
+1. All common failure modes have distinct routinely monitoring, trending, evaluating, and
+vibration frequency components that can reporting the mechanical condition of all
+be isolated and identified. mechanical equipment.
+
+---DOCUMENT_SEPARATOR---
+
+be isolated and identified. mechanical equipment.
+2. The amplitude of each distinct vibration Vibration analysis was started in 1988 by the
+component will remain constant unless Shuttle Processing Contractor (SPC) in an
+
+---DOCUMENT_SEPARATOR---
+
+there is a change in the operating dynamics effort to reduce the high failure rates
+of the machinery. experienced by the rotating machinery
+Monitoring the vibration from machinery can (ECS) located in the Orbiter Processing
+
+---DOCUMENT_SEPARATOR---
+
+provide a direct correlation between the Facility (OPF) at the Kennedy Space Center
+mechanical condition and recorded vibration (KSC).  The vibration analysis program
+data of each machine.  Vibration analysis can initially monitored 66 pieces of equipment
+
+---DOCUMENT_SEPARATOR---
+
+be used to identify specific degrading machine associated with the ECS and the Orbiter
+components or failure modes of machinery Portable Purge Units used at the OPF and the
+before serious damage occurs. two launch pads of Launch Complex 39.  The
+
+---DOCUMENT_SEPARATOR---
+
+Typically, 80% of the machinery problems reduce the failure rate and down time of the
+experienced can often be classified as either ECS equipment.
+imbalance or misalignment.  Imbalance and
+misalignment can lead to premature bearing, Because of the success achieved with the ECS
+
+---DOCUMENT_SEPARATOR---
+
+coupling, shaft seal, and gear wear.  Most of equipment, the SPC expanded the vibration
+the problems can be rectified by simply analysis program to include all other Space
+improving maintenance standards and Shuttle Program ground system equipment for
+
+---DOCUMENT_SEPARATOR---
+
+procedures and by eliminating careless or which it had maintenance responsibility at
+sloppy work. KSC.  The equipment considered was
+Also, imbalance and misalignment do not only components consist of a primary driver or
+
+---DOCUMENT_SEPARATOR---
+
+occur in established equipment over a period drivers (i.e., electric motor, turbine), all
+of time, they can be present after initial intermediate drives (i.e., couplings, belts, gear
+installation of a new piece of machinery. box), and all driven machine components (i.e.,
+
+---DOCUMENT_SEPARATOR---
+
+Vibration analysis can be used to validate that fans, pumps, drums).
+the new equipment has been properly installed. 
+This would prevent the introduction of failure All the SPC equipment was assessed.  A list of
+
+---DOCUMENT_SEPARATOR---
+
+causes which would have a detrimental effect equipment that would lend itself to vibration
+on the life of the equipment and the process analysis was created.  Due to the number of
+which the equipment supports. items identified, the SPC categorized the
+Recent advancements in microprocessor
+
+---DOCUMENT_SEPARATOR---
+
+Recent advancements in microprocessor
+technology and the development of PC based
+automated data management, and minimized
+Commercially available systems are capable of
+associated with Environmental Control System
+information gathered was used to effectively
+machine-train components.  Machine-train
+
+---DOCUMENT_SEPARATOR---
+
+machine-train components.  Machine-train
+equipment into a priority listing of equipment
+
+---DOCUMENT_SEPARATOR---
+
+Vibration Analysis of Rotating Ground Support Machinery, Page 3 of 4
+Technique AT-8
+Page AT-49
+that would be of benefit to the Space Shuttle established for future comparison.  The
+Program. frequency of monitoring a piece of equipment
+
+---DOCUMENT_SEPARATOR---
+
+Once the equipment to be monitored was the following considerations:
+identified, a process was established to
+routinely obtain vibration data from specific C The machine’s operating modes (i.e.,
+locations on the equipment.  Preparation for intermittent or continuous speeds/loads)
+
+---DOCUMENT_SEPARATOR---
+
+data collection involved determining what type .
+of data equipment was necessary, what type of C The machine’s operating environment.
+data to collect, where to take the
+measurements (i.e., shaft, bearing, housing, C The importance of the machine’s function.
+mount, coupling, gears, or fan), how many
+
+---DOCUMENT_SEPARATOR---
+
+mount, coupling, gears, or fan), how many
+degrees of freedom for each component were C Data derived from comparison of the
+to be measured (i.e., x-axis, y-axis, z-axis, initial baseline.
+radial), and should the measurement devices
+be of a permanent or temporary type C Availability of spare parts.
+
+---DOCUMENT_SEPARATOR---
+
+attachment.
+All of the data is collected via a portable diagnosis of a machine’s potential failure
+handheld microprocessor-based instrument. would be “overkill” and unduly burden the
+This removes the potential fro human error, data collection process.  The periodic
+
+---DOCUMENT_SEPARATOR---
+
+reduces manpower requirements, and collection of vibration data on a prescribed
+automates the acquisition of vibration data. route for trending purposes should be treated
+Due to the massive amount of data that is as a tool to indicate pending problems.
+
+---DOCUMENT_SEPARATOR---
+
+collected, a reliable PC based automated data Industry standards are utilized to determine a
+management system was selected that enables problem condition unless specific pieces of
+the vibration data to be stored, trended, and equipment dictate more stringent or lax alarm
+
+---DOCUMENT_SEPARATOR---
+
+recalled for use in developing long-term limits.
+trends.
+It is important to note that the bearings in a data is collected from the equipment in order
+machine-train are the primary limiting factor to aid the vibration analyst in determining the
+
+---DOCUMENT_SEPARATOR---
+
+for operating life.  The first indication of exact cause of the anomaly.  In order to
+machinery problems often develops in the resolve the anomaly in an efficient manner, “if”
+vibration signature of the machine’s bearings. and “what type” of information is needed.
+
+---DOCUMENT_SEPARATOR---
+
+However, the bearings are typically not the The questions asked are:
+cause of the problem.  But since they are the
+weakest link in most machinery, the bearings C What is the problem?
+are usually the first to fail.  Vibration checks at
+
+---DOCUMENT_SEPARATOR---
+
+points other than the bearings are also taken to C What is the machine’s history?  What has
+check for structural problems. the operator observed?
+Experience has proven that on new or C When did the problem start?  Was it
+
+---DOCUMENT_SEPARATOR---
+
+refurbished equipment, vibration data should sudden or gradual?  Did the machine ever
+be collected once a week for four consecutive run properly?
+weeks.  This will enable a trend to be
+after establishing an initial baseline is based on
+To regularly acquire enough data for complete
+
+---DOCUMENT_SEPARATOR---
+
+To regularly acquire enough data for complete
+Once a possible problem is identified, more
+
+---DOCUMENT_SEPARATOR---
+
+Vibration Analysis of Rotating Ground Support Machinery, Page 4 of 4
+Technique AT-8
+Page AT-50
+C Have any changes been made recently? 
+Modifications?  Realignments?  Changes in
+machine speed?
+Other NASA centers utilize vibration analysis
+for their own purposes as shown by 
+Reference 4.
+References
+
+---DOCUMENT_SEPARATOR---
+
+Reference 4.
+References
+1. Lockheed Space Operations Company
+Predictive Engineering Technology
+Program Implementation Plan.
+2. Mobley, R. Keith: “An Introduction to
+Predictive Maintenance,” Van Nostrand
+Reinhold, 1990.
+3. P/PM Technology, Volume 5, Issue 3 -
+May/June 1992.
+
+---DOCUMENT_SEPARATOR---
+
+May/June 1992.
+4. “Absolute Ball Bearing Wear
+Measurements From SSME Turbopump
+Dynamic Signals,” by J. M. Hine. 
+Proceedings of the 59th Shock and
+Vibration Symposium, Volume III, pp. 45-
+55, October 1988.
+
+---DOCUMENT_SEPARATOR---
+

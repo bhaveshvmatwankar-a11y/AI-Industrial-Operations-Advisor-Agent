@@ -1,53 +1,143 @@
 import pandas as pd
 from langchain.tools import tool
 
+from utils.data_manager import get_machine_data
+
 
 @tool
 def check_machine_risk(machine_id: str) -> str:
     """
     Check the operational risk of a specific industrial machine
-    using temperature, vibration, pressure, current and health status.
+    using the currently uploaded factory data.
     """
 
     print("\n===== MACHINE RISK TOOL USED =====")
 
-    df = pd.read_csv("data/sample_machine_data.csv")
+    # Get currently loaded/uploaded CSV
+    df = get_machine_data()
 
+    if df is None or df.empty:
+        return "No factory machine data is currently loaded."
+
+    # Make sure Machine_ID is treated as text
+    df["Machine_ID"] = df["Machine_ID"].astype(str).str.strip()
+
+    machine_id = str(machine_id).strip()
+
+    # Find requested machine
     machine = df[
         df["Machine_ID"].str.upper() == machine_id.upper()
     ]
 
     if machine.empty:
-        return f"Machine {machine_id} was not found."
+        return f"Machine {machine_id} was not found in the current factory data."
 
     row = machine.iloc[0]
 
     risks = []
 
-    if row["Temperature"] > 84:
+    # --------------------------------------------------
+    # TEMPERATURE RISK
+    # --------------------------------------------------
+
+    temperature = float(row["Temperature"])
+
+    if temperature > 84:
         risks.append(
-            f"High temperature ({row['Temperature']:.1f} °C)"
+            f"High temperature ({temperature:.1f} °C)"
         )
 
-    if row["Vibration"] > 1.4:
+    # --------------------------------------------------
+    # VIBRATION RISK
+    # --------------------------------------------------
+
+    vibration = float(row["Vibration"])
+
+    if vibration > 1.4:
         risks.append(
-            f"High vibration ({row['Vibration']:.2f})"
+            f"High vibration ({vibration:.2f})"
         )
 
-    if row["Pressure"] > 3.5:
+    # --------------------------------------------------
+    # RUNTIME RISK
+    # --------------------------------------------------
+
+    runtime = float(row["Runtime_Hours"])
+
+    if runtime > 1500:
         risks.append(
-            f"High pressure ({row['Pressure']:.2f})"
+            f"High runtime ({runtime:.0f} hours)"
         )
 
-    if row["Current"] > 25:
+    # --------------------------------------------------
+    # HEALTH STATUS
+    # --------------------------------------------------
+
+    health_status = str(
+        row["Health_Status"]
+    ).strip()
+
+    # Add health status as a risk indicator
+    if health_status.lower() == "critical":
         risks.append(
-            f"High current ({row['Current']:.2f} A)"
+            "Machine is currently in Critical health status."
         )
+
+    elif health_status.lower() == "warning":
+        risks.append(
+            "Machine is currently in Warning health status."
+        )
+
+    # --------------------------------------------------
+    # NO ABNORMALITY
+    # --------------------------------------------------
 
     if not risks:
-        risks.append("No major abnormal operating parameter detected.")
+        risks.append(
+            "No major abnormal operating parameter detected."
+        )
 
-    risk_level = row["Health_Status"]
+    # --------------------------------------------------
+    # RISK LEVEL
+    # --------------------------------------------------
+
+    if health_status.lower() == "critical":
+        risk_level = "CRITICAL"
+
+    elif health_status.lower() == "warning":
+        risk_level = "WARNING"
+
+    else:
+        risk_level = "LOW"
+
+    # --------------------------------------------------
+    # RECOMMENDATION
+    # --------------------------------------------------
+
+    if risk_level == "CRITICAL":
+
+        recommendation = (
+            "Immediate inspection and maintenance are recommended. "
+            "The machine may require priority attention."
+        )
+
+    elif risk_level == "WARNING":
+
+        recommendation = (
+            "Monitor the machine closely and schedule inspection "
+            "if abnormal conditions continue."
+        )
+
+    else:
+
+        recommendation = (
+            "Machine is operating normally. "
+            "Continue routine monitoring and maintenance."
+        )
+
+    # --------------------------------------------------
+    # FINAL REPORT
+    # --------------------------------------------------
 
     return f"""
 MACHINE RISK ASSESSMENT
@@ -56,19 +146,18 @@ Machine ID: {row["Machine_ID"]}
 Machine Type: {row["Machine_Name"]}
 Location: {row["Location"]}
 
-Health Status: {risk_level}
+Risk Level: {risk_level}
+Health Status: {health_status}
 
-Temperature: {row["Temperature"]:.2f} °C
-Pressure: {row["Pressure"]:.2f}
-Vibration: {row["Vibration"]:.2f}
-Current: {row["Current"]:.2f} A
-Runtime: {row["Runtime_Hours"]} hours
+Operating Parameters:
+
+Temperature: {temperature:.2f} °C
+Vibration: {vibration:.2f}
+Runtime: {runtime:.0f} hours
 
 Detected Risks:
 - {"\n- ".join(risks)}
 
 Recommendation:
-Follow appropriate industrial safety procedures and
-have qualified maintenance personnel inspect the machine
-if abnormal conditions persist.
+{recommendation}
 """
